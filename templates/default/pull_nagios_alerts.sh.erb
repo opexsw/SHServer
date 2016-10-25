@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# Read configurations from properties file
+. ${1}
+#. <%= @DOC_ROOT %>/SHS/conf/monitoring_api.properties
+
+#Check if this script is already running. IF so do not do anything.
+COUNT=`ps -eaf | grep "<%= @DOC_ROOT %>/SHS/bin/pull_nagios_alerts.sh" | grep -v grep | wc -l`
+if [ $COUNT -gt 2 ]; then
+        echo "`date` - DEBUG: <%= @DOC_ROOT %>/SHS/bin/pull_nagios_alerts.sh is already running" >> /var/log/SHS/shs_pull.log
+        exit 0;
+fi
+
+for servicename in $(echo $servicenames | sed "s/,/ /g")
+do
+        outputJson=$(curl -k -u 'glds_selfhealing:$GLDS$' 'https://'"$ip"'/rest/rest.pl?command='"$endpoint"'&service='"$servicename"'&state='"$state"'&output_format=json')
+        if [ ! -z "$outputJson" ]
+        then
+                count=$(echo $outputJson | jq '.services | length' | tr '\n' ' ')
+        else
+                echo "No data from API." >> /var/log/SHS/shssap.log
+                exit 0
+        fi
+
+        for ((i=0;i<=count;i++)); do
+                host=$(echo $outputJson | jq ".services[$i].hostname")
+                service=$(echo $outputJson | jq ".services[$i].service")
+                hostgroups=$(echo $outputJson | jq ".services[$i].hostgroups")
+                if [ -z "$host" ] || [ -z "$service" ]
+                then
+                        continue
+                elif [ "$host" = "null" ] || [ "$service" = "null" ]
+                then
+                        continue
+                else
+                        ALERT="alert 'cache_check'=\"$(echo \"$host$service\" | tr -d '\"')\",'service_host'=$host ,'service_desc'=$service ,'service_stateid'=2 ,'host_groups'=\"$(echo \"$hostgroups\" | tr -d '\"')\""
+                        echo "$ALERT" >> <%= @DOC_ROOT %>/SHS/trappipe
+                fi
+        done
+done

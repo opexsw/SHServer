@@ -1,0 +1,10 @@
+<?php
+require '<%= @slim_php_autoloader %>';
+$projectDir = '<%= @project_dir %>';   //define the directory containing the project files
+require "$projectDir/includes.php";     //include the file which contains all the project related includes
+$app = new Slim\App(array(
+    'templates.path' => '/usr/local/SHS/web/Views'
+));      //instantiate a new Framework Object and define the path to the folder that holds the views for this project
+require "$projectDir/routes.php";       //include the file which contains all the routes/route inclusions
+$app->run();
+?>

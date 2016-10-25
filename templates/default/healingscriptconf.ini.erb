@@ -1,0 +1,10 @@
+; This is a sample configuration file
+; Comments start with ';', as in php.ini
+
+;REPOSITORY_URL = "https://@github.com/opexsw/hscripts.git"
+;REPO_PATH = "/usr/local/SHS/repository/"
+;REPO_NAME = "hscripts"
+
+REPOSITORY_URL = "https://<%= @user_name %>:<%= @password %>@<%= @repo_url %>"
+REPO_PATH = "/var/www/html/SHS/repository/"
+REPO_NAME = "<%= @repo_name %>"

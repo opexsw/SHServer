@@ -1,0 +1,11 @@
+
+/var/log/serf/serf.log {
+        size <%= node['logrotate']['filesize'] %>
+        daily
+        copytruncate
+        create 755 root root
+        dateext
+        rotate <%= node['logrotate']['num_of_file_rotation'] %>
+        compress
+}
+

@@ -1,0 +1,4 @@
+#!bin/sh
+
+# remove the SHS-server logs older than configured no_of_days.
+find /var/log/SHS -type f -mtime +<%= @NO_OF_DAYS %> -delete
