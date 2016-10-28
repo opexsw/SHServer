@@ -6,4 +6,4 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe 'litc-glds-shs-server::shs_server'
+include_recipe 'SHServer::shs_server'
