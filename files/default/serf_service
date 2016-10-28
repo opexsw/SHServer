@@ -3,17 +3,17 @@
 # /etc/init.d/serf -- startup script for serf agent
 #
 ### BEGIN INIT INFO
-# Provides:				serf
-# Short-Description: 	Serf agent
-# Default-Start:  		3 4 5
-# Default-Stop: 		0 1 2 6
+# Provides:                             serf
+# Short-Description:    Serf agent
+# Default-Start:                3 4 5
+# Default-Stop:                 0 1 2 6
 # Required-Start:
 # Required-Stop:
 # Should-Start:
 # Should-Stop:
-# chkconfig: 			2345 95 20
-# description: 			Serf agent
-# processname: 			serf
+# chkconfig:                    2345 95 20
+# description:                  Serf agent
+# processname:                  serf
 ### END INIT INFO
 
 
@@ -45,7 +45,7 @@ stop() {
     if [ -z "$FOUND_PID" ]; then
       echo "$NAME is not running, nothing to stop"
     else
-      while [[ -n $FOUND_PID ]]; 
+      while [[ -n $FOUND_PID ]];
         do
         echo "Attempting to shutdown $NAME..."
         kill -INT $FOUND_PID
@@ -70,9 +70,10 @@ status() {
   if [ -z "$FOUND_PID" ]; then
     echo "$NAME is not running" ; exit 1
   else
-    echo "$NAME is running : $FOUND_PID" 
+    echo "$NAME is running : $FOUND_PID"
   fi
 }
+
 
 reload() {
   find_pid
@@ -80,7 +81,7 @@ reload() {
     echo "$NAME is not running" ; exit 1
   else
     kill -HUP $FOUND_PID
-    echo "Reloaded $NAME" 
+    echo "Reloaded $NAME"
   fi
 }
 
