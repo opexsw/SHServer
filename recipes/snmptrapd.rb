@@ -25,7 +25,7 @@ package 'net-snmp-utils' do
 end
 
 # Add snmptraphandler script
-cookbook_file "#{node['shs-server']['apache_doc_root']}/SHS/traphandle.sh" do
+cookbook_file "#{node['SHServer']['apache_doc_root']}/SHS/traphandle.sh" do
   source 'snmptraphandler.sh'
   owner 'root'
   group 'root'
